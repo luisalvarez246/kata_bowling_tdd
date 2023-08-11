@@ -101,10 +101,9 @@ class GameTest
             //arrange
             Game.Bonus  bonus;
             Game.Bonus  bonusFrame;
-            int         pins;
             //act
-            pins = 10;
-            gameBonus.checkBonus(pins);
+            gameBonus.setPinTotal(10);
+            gameBonus.checkBonus();
             bonus = gameBonus.getBonus();
             bonusFrame = gameBonus.getBonusFrame().get(0);
             //assert
@@ -118,12 +117,10 @@ class GameTest
             //arrange
             Game.Bonus  bonus;
             Game.Bonus  bonusFrame;
-            int         pins;
             //act
             gameBonus.setBall(2);
             gameBonus.setPinTotal(10);
-            pins = 3;
-            gameBonus.checkBonus(pins);
+            gameBonus.checkBonus();
             bonus = gameBonus.getBonus();
             bonusFrame = gameBonus.getBonusFrame().get(0);
             //assert

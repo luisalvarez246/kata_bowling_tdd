@@ -23,9 +23,14 @@ public class Game
         this.scoreFrame = new ArrayList<>();
     }
 
-    public void checkBonus(int pins)
+    public void result(int pins)
     {
-        if ((this.ball == 1) && (pins == 10))
+        this.pinTotal = this.pinTotal + pins;
+    }
+
+    public void checkBonus()
+    {
+        if ((this.ball == 1) && (pinTotal == 10))
         {
             this.bonus = Bonus.Strike;
             this.bonusFrame.add(this.bonus);
@@ -52,8 +57,8 @@ public class Game
 
     public void Roll(int pins)
     {
-        this.pinTotal = this.pinTotal + pins;
-        checkBonus(pins);
+        result(pins);
+        checkBonus();
         nextFrame();
     }
 
