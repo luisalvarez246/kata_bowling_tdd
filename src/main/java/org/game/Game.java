@@ -9,8 +9,7 @@ public class Game
     private int                 score;
     private int                 pinTotal;
     private Bonus               bonus;
-    private ArrayList<Integer>  scoreFrame;
-    private ArrayList<Bonus>    bonusFrame;
+    private LinkedListScores    frameScores;
 
     public Game()
     {
@@ -19,8 +18,7 @@ public class Game
         this.score = 0;
         this.pinTotal = 0;
         this.bonus = Bonus.None;
-        this.bonusFrame = new ArrayList<>();
-        this.scoreFrame = new ArrayList<>();
+        this.frameScores = new LinkedListScores();
     }
 
     public void result(int pins)
@@ -33,18 +31,18 @@ public class Game
         if ((this.ball == 1) && (pinTotal == 10))
         {
             this.bonus = Bonus.Strike;
-            this.bonusFrame.add(this.bonus);
+            this.frameScores.setBonusFrame(this.bonus);
         }
         else if ((this.ball == 2) && (pinTotal == 10))
         {
             this.bonus = Bonus.Spare;
-            this.bonusFrame.add(this.bonus);
+            this.frameScores.setBonusFrame(this.bonus);
         }
         else if ((this.ball == 2))
-            this.bonusFrame.add(this.bonus);
+            this.frameScores.setBonusFrame(this.bonus);
     }
 
-    public void frameScore()
+    /*public void frameScore()
     {
         int arrayFrame;
 
@@ -53,7 +51,7 @@ public class Game
         {
             this.scoreFrame.add(arrayFrame, pinTotal);
         }
-    }
+    }*/
 
     public void nextFrame()
     {
@@ -70,7 +68,7 @@ public class Game
     {
         result(pins);
         checkBonus();
-        frameScore();
+        //frameScore();
         nextFrame();
     }
 
@@ -106,14 +104,9 @@ public class Game
         return (pinTotal);
     }
 
-    public ArrayList<Integer> getScoreFrame()
+    public LinkedListScores getFrameScores()
     {
-        return (scoreFrame);
-    }
-
-    public ArrayList<Bonus> getBonusFrame()
-    {
-        return (bonusFrame);
+        return (frameScores);
     }
 
     public void setFrame(int frame)
@@ -141,12 +134,8 @@ public class Game
         this.pinTotal = pinTotal;
     }
 
-    public void setScoreFrame(ArrayList<Integer> scoreFrame)
+    public void setFrameScores(LinkedListScores frameScores)
     {
-        this.scoreFrame = scoreFrame;
-    }
-
-    public void setBonusFrame(ArrayList<Bonus> bonusFrame) {
-        this.bonusFrame = bonusFrame;
+        this.frameScores = frameScores;
     }
 }
