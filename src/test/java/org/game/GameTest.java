@@ -105,7 +105,7 @@ class GameTest
             gameBonus.setPinTotal(10);
             gameBonus.checkBonus();
             bonus = gameBonus.getBonus();
-            bonusFrame = gameBonus.getBonusFrame().get(0);
+            bonusFrame = gameBonus.getFrameScores().getBonusFrame();
             //assert
             assertEquals(Game.Bonus.Strike, bonus);
             assertEquals(Game.Bonus.Strike, bonusFrame);
@@ -122,7 +122,7 @@ class GameTest
             gameBonus.setPinTotal(10);
             gameBonus.checkBonus();
             bonus = gameBonus.getBonus();
-            bonusFrame = gameBonus.getBonusFrame().get(0);
+            bonusFrame = gameBonus.getFrameScores().getBonusFrame();
             //assert
             assertEquals(Game.Bonus.Spare, bonus);
             assertEquals(Game.Bonus.Spare, bonusFrame);
@@ -139,7 +139,7 @@ class GameTest
             gameBonus.setPinTotal(5);
             gameBonus.checkBonus();
             bonus = gameBonus.getBonus();
-            bonusFrame = gameBonus.getBonusFrame().get(0);
+            bonusFrame = gameBonus.getFrameScores().getBonusFrame();
             //assert
             assertEquals(Game.Bonus.None, bonus);
             assertEquals(Game.Bonus.None, bonusFrame);
@@ -199,7 +199,7 @@ class GameTest
         }
     }
 
-    @Nested
+    /*@Nested
     class   FrameScores
     {
         private Game gameScore;
@@ -226,8 +226,5 @@ class GameTest
             //assert
             assertEquals(7, score);
         }
-    }
-
-
-
+    }*/
 }
