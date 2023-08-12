@@ -5,10 +5,12 @@ public class LinkedListScores
     private Game.Bonus          bonusFrame;
     private int                 pinsA;
     private int                 pinsB;
+    private int                 pinsC;
     private LinkedListScores    next;
 
     public LinkedListScores()
     {
+        this.next = null;
     }
 
     public void newNode()
@@ -38,6 +40,14 @@ public class LinkedListScores
 
     public void setPinsB(int pinsB) {
         this.pinsB = pinsB;
+    }
+
+    public int getPinsC() {
+        return pinsC;
+    }
+
+    public void setPinsC(int pinsC) {
+        this.pinsC = pinsC;
     }
 
     public LinkedListScores getNext() {
