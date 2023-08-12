@@ -133,15 +133,16 @@ class GameTest
         {
             //arrange
             Game.Bonus  bonus;
-            int         pins;
+            Game.Bonus  bonusFrame;
             //act
             gameBonus.setBall(2);
             gameBonus.setPinTotal(5);
-            pins = 3;
-            gameBonus.Roll(pins);
+            gameBonus.checkBonus();
             bonus = gameBonus.getBonus();
+            bonusFrame = gameBonus.getBonusFrame().get(0);
             //assert
             assertEquals(Game.Bonus.None, bonus);
+            assertEquals(Game.Bonus.None, bonusFrame);
         }
     }
 
@@ -199,12 +200,31 @@ class GameTest
     }
 
     @Nested
-    class   GameBonusFrames
+    class   FrameScores
     {
-        @Test
-        public void if_bonus_is_Strike_it_is_saved_in_bonusFrame()
-        {
+        private Game gameScore;
 
+        @BeforeEach
+        public void setup()
+        {
+            gameScore = new Game();
+        }
+        @Test
+        public void if_bonusFrame_None_add_pinTotal_to_scoreFrame()
+        {
+            //arrange
+            ArrayList<Game.Bonus>   bonusFrame;
+            int                     score;
+            //act
+            bonusFrame = new ArrayList<>();
+            bonusFrame.add(Game.Bonus.None);
+            gameScore.setBonusFrame(bonusFrame);
+            gameScore.setPinTotal(7);
+            //gameScore.setBall(2);
+            gameScore.frameScore();
+            score = gameScore.getScoreFrame().get(0);
+            //assert
+            assertEquals(7, score);
         }
     }
 

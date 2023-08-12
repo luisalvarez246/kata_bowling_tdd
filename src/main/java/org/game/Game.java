@@ -44,6 +44,17 @@ public class Game
             this.bonusFrame.add(this.bonus);
     }
 
+    public void frameScore()
+    {
+        int arrayFrame;
+
+        arrayFrame = this.frame - 1;
+        if ((this.bonusFrame.get(arrayFrame) == Bonus.None))
+        {
+            this.scoreFrame.add(arrayFrame, pinTotal);
+        }
+    }
+
     public void nextFrame()
     {
         if ((this.bonus == Bonus.Strike) || (this.ball == 2))
@@ -59,6 +70,7 @@ public class Game
     {
         result(pins);
         checkBonus();
+        frameScore();
         nextFrame();
     }
 
