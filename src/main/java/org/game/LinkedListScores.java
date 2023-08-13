@@ -31,6 +31,13 @@ public class LinkedListScores
             this.calculated = true;
     }
 
+    public void calculateSpare(LinkedListScores current)
+    {
+        current.setPinsC(current.getNext().getPinsA());
+        current.calculateFrameTotal();
+        current.calculated = true;
+    }
+
     public void updateFrameTotals()
     {
         LinkedListScores    current;
@@ -40,9 +47,7 @@ public class LinkedListScores
         {
             if((current.frameBonus == Game.Bonus.Spare) && (!current.calculated))
             {
-                current.setPinsC(current.getNext().getPinsA());
-                current.calculateFrameTotal();
-                current.calculated = true;
+                calculateSpare(current);
             }
             current = current.getNext();
         }
