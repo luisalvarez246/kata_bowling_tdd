@@ -269,6 +269,7 @@ class GameTest
             frameB.setPinsA(5);
             frameA.updateFrameTotals();
             //assert
+            assertEquals(frameB.getPinsA(), frameA.getPinsC());
             assertEquals(15, frameA.getFrameTotal());
         }
         @Test
