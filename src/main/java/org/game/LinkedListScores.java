@@ -80,6 +80,24 @@ public class LinkedListScores
         }
     }
 
+    public int totalScore()
+    {
+        LinkedListScores    current;
+        int                 iterator;
+        int                 totalizer;
+
+        current = this;
+        iterator = 0;
+        totalizer = 0;
+        while (iterator < 10)
+        {
+            totalizer = current.frameTotal + totalizer;
+            current = current.getNext();
+            iterator++;
+        }
+        return (totalizer);
+    }
+
     public Game.Bonus getFrameBonus()
     {
         return frameBonus;

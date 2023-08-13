@@ -9,6 +9,7 @@ public class Game
     private int                 score;
     private int                 pinTotal;
     private Bonus               bonus;
+    private boolean             isFinished;
     private LinkedListScores    firstFrame;
     private LinkedListScores    currentFrame;
     private ArrayList<Integer>  frameScores;
@@ -20,6 +21,7 @@ public class Game
         this.score = 0;
         this.pinTotal = 0;
         this.bonus = Bonus.None;
+        this.isFinished = false;
         this.firstFrame = new LinkedListScores();
         this.currentFrame = this.firstFrame;
         this.frameScores = new ArrayList<>();
@@ -66,9 +68,24 @@ public class Game
         calculateFrameScores();
     }
 
+    public int  Score()
+    {
+        return (firstFrame.totalScore());
+    }
+
+    public void endMatch()
+    {
+        this.score = Score();
+        this.isFinished = true;
+    }
+
     public void nextFrame()
     {
-        if ((this.bonus == Bonus.Strike) || (this.ball == 2))
+        if ((this.frame == 10) && (this.bonus == Bonus.None) && (this.ball == 2))
+        {
+            endMatch();
+        }
+        else if ((this.bonus == Bonus.Strike) || (this.ball == 2))
         {
             this.frame++;
             this.ball = 1;
@@ -81,10 +98,17 @@ public class Game
 
     public void Roll(int pins)
     {
-        result(pins);
-        checkBonus();
-        frameScore(pins);
-        nextFrame();
+        if (!this.isFinished)
+        {
+            result(pins);
+            checkBonus();
+            frameScore(pins);
+            nextFrame();
+        }
+        else
+        {
+            throw new IllegalStateException("Game Finished, final score " + this.score + ", reset to start a new Game");
+        }
     }
 
     public enum Bonus

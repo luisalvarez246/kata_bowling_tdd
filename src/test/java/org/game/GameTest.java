@@ -377,5 +377,65 @@ class GameTest
             //assert1
             assertEquals(25, frameA.getFrameTotal());
         }
+
+        @Nested
+        class   GameEnd
+        {
+            private Game gameEnd;
+
+            @BeforeEach
+            public void setup()
+            {
+                gameEnd = new Game();
+            }
+
+            @Test
+            public void A_Game_is_finished_at_the_10th_frame()
+            {
+                //arrange
+                LinkedListScores    frame;
+                //act
+                frame = gameEnd.getCurrentFrame();
+                gameEnd.setFrame(10);
+                gameEnd.setBall(2);
+                gameEnd.setBonus(Game.Bonus.None);
+                for (int i = 0; i < 10; i++)
+                {
+                    frame.setFrameTotal(9);
+                    frame.newFrame();
+                    frame = frame.getNext();
+                }
+                gameEnd.nextFrame();
+                //assert
+                try
+                {
+                    gameEnd.Roll(5);
+                    fail("Exception expected to be thrown");
+                }
+                catch(Exception error)
+                {
+                    assertEquals("Game Finished, final score 90, reset to start a new Game", error.getMessage());
+                }
+            }
+
+            @Test
+            public void Score_returns_the_total_score_of_the_match()
+            {
+                //arrange
+                LinkedListScores    frame;
+                int                 score;
+                //act
+                frame = gameEnd.getCurrentFrame();
+                for (int i = 0; i < 10; i++)
+                {
+                    frame.setFrameTotal(9);
+                    frame.newFrame();
+                    frame = frame.getNext();
+                }
+                score = gameEnd.Score();
+                //assert
+                assertEquals(90, score);
+            }
+        }
     }
 }
