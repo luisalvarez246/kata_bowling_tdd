@@ -264,7 +264,7 @@ class GameTest
             frameA.setPinsA(5);
             frameA.setPinsB(5);
             frameA.setFrameBonus(Game.Bonus.Spare);
-            frameA.newNode();
+            frameA.newFrame();
             frameB = frameA.getNext();
             frameB.setPinsA(5);
             frameA.updateFrameTotals();

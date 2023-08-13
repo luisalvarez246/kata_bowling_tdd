@@ -48,6 +48,7 @@ public class Game
 
     public void calculateFrameScores()
     {
+        this.currentFrame.calculateFrameTotal();
         this.firstFrame.updateFrameTotals();
     }
 
@@ -61,9 +62,7 @@ public class Game
         else if ((this.ball == 2) && (isBonus))
         {
             this.currentFrame.setPinsB(pins);
-            this.currentFrame.setCalculated(true);
         }
-        this.currentFrame.calculateFrameTotal();
         calculateFrameScores();
     }
 
@@ -75,7 +74,7 @@ public class Game
             this.ball = 1;
             this.pinTotal = 0;
             this.bonus = Bonus.None;
-            this.currentFrame.newNode();
+            this.currentFrame.newFrame();
             this.currentFrame = this.currentFrame.getNext();
         }
     }

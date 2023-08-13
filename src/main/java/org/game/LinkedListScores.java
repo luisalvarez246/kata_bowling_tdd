@@ -19,7 +19,7 @@ public class LinkedListScores
         this.next = null;
     }
 
-    public void newNode()
+    public void newFrame()
     {
         this.next = new LinkedListScores();
     }
