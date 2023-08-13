@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Nested;
 
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -105,7 +104,7 @@ class GameTest
             gameBonus.setPinTotal(10);
             gameBonus.checkBonus();
             bonus = gameBonus.getBonus();
-            bonusFrame = gameBonus.getFrameScores().getBonusFrame();
+            bonusFrame = gameBonus.getCurrentFrame().getFrameBonus();
             //assert
             assertEquals(Game.Bonus.Strike, bonus);
             assertEquals(Game.Bonus.Strike, bonusFrame);
@@ -122,7 +121,7 @@ class GameTest
             gameBonus.setPinTotal(10);
             gameBonus.checkBonus();
             bonus = gameBonus.getBonus();
-            bonusFrame = gameBonus.getFrameScores().getBonusFrame();
+            bonusFrame = gameBonus.getCurrentFrame().getFrameBonus();
             //assert
             assertEquals(Game.Bonus.Spare, bonus);
             assertEquals(Game.Bonus.Spare, bonusFrame);
@@ -139,7 +138,7 @@ class GameTest
             gameBonus.setPinTotal(5);
             gameBonus.checkBonus();
             bonus = gameBonus.getBonus();
-            bonusFrame = gameBonus.getFrameScores().getBonusFrame();
+            bonusFrame = gameBonus.getCurrentFrame().getFrameBonus();
             //assert
             assertEquals(Game.Bonus.None, bonus);
             assertEquals(Game.Bonus.None, bonusFrame);
@@ -199,32 +198,92 @@ class GameTest
         }
     }
 
-    /*@Nested
+    @Nested
     class   FrameScores
     {
-        private Game gameScore;
+        private Game gameScores;
 
         @BeforeEach
         public void setup()
         {
-            gameScore = new Game();
+            gameScores = new Game();
         }
+
         @Test
-        public void if_bonusFrame_None_add_pinTotal_to_scoreFrame()
+        public void first_roll_is_always_saved_in_pinsA()
         {
             //arrange
-            ArrayList<Game.Bonus>   bonusFrame;
-            int                     score;
+            int pins;
             //act
-            bonusFrame = new ArrayList<>();
-            bonusFrame.add(Game.Bonus.None);
-            gameScore.setBonusFrame(bonusFrame);
-            gameScore.setPinTotal(7);
-            //gameScore.setBall(2);
-            gameScore.frameScore();
-            score = gameScore.getScoreFrame().get(0);
+            pins = 5;
+            gameScores.frameScore(pins);
             //assert
-            assertEquals(7, score);
+            assertEquals(5, gameScores.getCurrentFrame().getPinsA());
         }
-    }*/
+        @Test
+        public void if_frameBonus_is_None_second_roll_is_saved_in_pinsB()
+        {
+            //arrange
+            int pins;
+            //act
+            pins = 3;
+            gameScores.setBall(2);
+            gameScores.getCurrentFrame().setFrameBonus(Game.Bonus.None);
+            gameScores.frameScore(pins);
+            //assert
+            assertEquals(3, gameScores.getCurrentFrame().getPinsB());
+        }
+
+        @Test
+        public void frameTotal_is_calculated_after_each_roll()
+        {
+            //arrange
+            int pins;
+            //act
+            pins = 5;
+            gameScores.frameScore(pins);
+            //assert
+            assertEquals(5, gameScores.getCurrentFrame().getFrameTotal());
+            //act2
+            pins = 3;
+            gameScores.setBall(2);
+            gameScores.getCurrentFrame().setFrameBonus(Game.Bonus.None);
+            gameScores.frameScore(pins);
+            assertEquals(8, gameScores.getCurrentFrame().getFrameTotal());
+            assertEquals(8, gameScores.getFirstFrame().getFrameTotal());
+        }
+
+        @Test
+        public void if_frameBonus_is_Spare_pinsC_FrameA_equals_pinsA_FrameB()
+        {
+            //arrange
+            LinkedListScores    frameA;
+            LinkedListScores    frameB;
+            //act
+            frameA = new LinkedListScores();
+            frameA.setPinsA(5);
+            frameA.setPinsB(5);
+            frameA.setFrameBonus(Game.Bonus.Spare);
+            frameA.newNode();
+            frameB = frameA.getNext();
+            frameB.setPinsA(5);
+            frameA.updateFrameTotals();
+            //assert
+            assertEquals(15, frameA.getFrameTotal());
+        }
+        @Test
+        public void if_frameBonus_is_Spare_but_frameB_has_not_been_played_frameA_is_10()
+        {
+            //arrange
+            LinkedListScores    frameA;
+            //act
+            frameA = gameScores.getCurrentFrame();
+            frameA.setPinsA(5);
+            gameScores.setBall(2);
+            frameA.setFrameBonus(Game.Bonus.Spare);
+            gameScores.frameScore(5);
+            //assert
+            assertEquals(10, frameA.getFrameTotal());
+        }
+    }
 }

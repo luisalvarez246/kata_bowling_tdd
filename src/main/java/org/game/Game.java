@@ -9,7 +9,9 @@ public class Game
     private int                 score;
     private int                 pinTotal;
     private Bonus               bonus;
-    private LinkedListScores    frameScores;
+    private LinkedListScores    firstFrame;
+    private LinkedListScores    currentFrame;
+    private ArrayList<Integer>  frameScores;
 
     public Game()
     {
@@ -18,7 +20,9 @@ public class Game
         this.score = 0;
         this.pinTotal = 0;
         this.bonus = Bonus.None;
-        this.frameScores = new LinkedListScores();
+        this.firstFrame = new LinkedListScores();
+        this.currentFrame = this.firstFrame;
+        this.frameScores = new ArrayList<>();
     }
 
     public void result(int pins)
@@ -31,27 +35,37 @@ public class Game
         if ((this.ball == 1) && (pinTotal == 10))
         {
             this.bonus = Bonus.Strike;
-            this.frameScores.setBonusFrame(this.bonus);
+            this.currentFrame.setFrameBonus(this.bonus);
         }
         else if ((this.ball == 2) && (pinTotal == 10))
         {
             this.bonus = Bonus.Spare;
-            this.frameScores.setBonusFrame(this.bonus);
+            this.currentFrame.setFrameBonus(this.bonus);
         }
         else if ((this.ball == 2))
-            this.frameScores.setBonusFrame(this.bonus);
+            this.currentFrame.setFrameBonus(this.bonus);
     }
 
-    /*public void frameScore()
+    public void calculateFrameScores()
     {
-        int arrayFrame;
+        this.firstFrame.updateFrameTotals();
+    }
 
-        arrayFrame = this.frame - 1;
-        if ((this.bonusFrame.get(arrayFrame) == Bonus.None))
+    public void frameScore(int pins)
+    {
+        boolean isBonus;
+
+        isBonus = this.currentFrame.getFrameBonus() != Bonus.Strike;
+        if (this.ball == 1)
+            this.currentFrame.setPinsA(pins);
+        else if ((this.ball == 2) && (isBonus))
         {
-            this.scoreFrame.add(arrayFrame, pinTotal);
+            this.currentFrame.setPinsB(pins);
+            this.currentFrame.setCalculated(true);
         }
-    }*/
+        this.currentFrame.calculateFrameTotal();
+        calculateFrameScores();
+    }
 
     public void nextFrame()
     {
@@ -61,6 +75,8 @@ public class Game
             this.ball = 1;
             this.pinTotal = 0;
             this.bonus = Bonus.None;
+            this.currentFrame.newNode();
+            this.currentFrame = this.currentFrame.getNext();
         }
     }
 
@@ -68,7 +84,7 @@ public class Game
     {
         result(pins);
         checkBonus();
-        //frameScore();
+        frameScore(pins);
         nextFrame();
     }
 
@@ -104,9 +120,14 @@ public class Game
         return (pinTotal);
     }
 
-    public LinkedListScores getFrameScores()
+    public LinkedListScores getCurrentFrame()
     {
-        return (frameScores);
+        return (currentFrame);
+    }
+
+    public LinkedListScores getFirstFrame()
+    {
+        return (firstFrame);
     }
 
     public void setFrame(int frame)
@@ -134,8 +155,13 @@ public class Game
         this.pinTotal = pinTotal;
     }
 
-    public void setFrameScores(LinkedListScores frameScores)
+    public void setCurrentFrame(LinkedListScores currentFrame)
     {
-        this.frameScores = frameScores;
+        this.currentFrame = currentFrame;
+    }
+
+    public void setFirstFrame(LinkedListScores firstFrame)
+    {
+        this.firstFrame = firstFrame;
     }
 }
