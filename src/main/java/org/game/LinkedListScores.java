@@ -27,7 +27,7 @@ public class LinkedListScores
     public void calculateFrameTotal()
     {
         this.frameTotal = this.pinsA + this.pinsB + this.pinsC;
-        if ((pinsB != 0) && (pinsA + pinsB == 10))
+        if ((pinsB != 0) && (pinsA + pinsB < 10))
             this.calculated = true;
     }
 
@@ -36,6 +36,29 @@ public class LinkedListScores
         current.setPinsC(current.getNext().getPinsA());
         current.calculateFrameTotal();
         current.calculated = true;
+    }
+
+    public void calculateStrike(LinkedListScores current)
+    {
+        LinkedListScores    frameB;
+        LinkedListScores    frameC;
+
+        frameB = current.getNext();
+        frameC = frameB.getNext();
+        if ((frameB.calculated) || (frameB.frameBonus == Game.Bonus.Spare))
+        {
+            current.setPinsB(frameB.getPinsA());
+            current.setPinsC(frameB.getPinsB());
+            current.calculateFrameTotal();
+            current.calculated = true;
+        }
+        else if ((frameB.frameBonus == Game.Bonus.Strike) && (frameC != null))
+        {
+            current.setPinsB(frameB.getPinsA());
+            current.setPinsC(frameC.getPinsA());
+            current.calculateFrameTotal();
+            current.calculated = true;
+        }
     }
 
     public void updateFrameTotals()
@@ -48,6 +71,10 @@ public class LinkedListScores
             if((current.frameBonus == Game.Bonus.Spare) && (!current.calculated))
             {
                 calculateSpare(current);
+            }
+            else if ((current.frameBonus == Game.Bonus.Strike) && (!current.calculated))
+            {
+                calculateStrike(current);
             }
             current = current.getNext();
         }

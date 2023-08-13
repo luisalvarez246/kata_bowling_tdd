@@ -286,5 +286,96 @@ class GameTest
             //assert
             assertEquals(10, frameA.getFrameTotal());
         }
+
+        @Test
+        public void if_frameBonus_is_Spare_frameA_is_calculated_after_frameB_is_played()
+        {
+            //arrange
+            LinkedListScores    frameA;
+            LinkedListScores    frameB;
+            //act
+            frameA = gameScores.getCurrentFrame();
+            frameA.setPinsA(5);
+            frameA.setPinsB(5);
+            frameA.setFrameBonus(Game.Bonus.Spare);
+            frameA.newFrame();
+            frameB = frameA.getNext();
+            gameScores.setCurrentFrame(frameB);
+            gameScores.frameScore(5);
+            //assert
+            assertEquals(15, frameA.getFrameTotal());
+        }
+
+        @Test
+        public void if_frameBonus_is_Strike_next_2_balls_are_added_to_pinsB_and_pinsC()
+        {
+            //arrange
+            LinkedListScores    frameA;
+            LinkedListScores    frameB;
+            //act
+            frameA = new LinkedListScores();
+            frameA.setPinsA(10);
+            frameA.setFrameBonus(Game.Bonus.Strike);
+            frameA.newFrame();
+            frameB = frameA.getNext();
+            frameB.setPinsA(5);
+            frameB.setPinsB(3);
+            frameB.calculateFrameTotal();
+            frameA.updateFrameTotals();
+            //assert
+            assertEquals(frameB.getPinsA(), frameA.getPinsB());
+            assertEquals(frameB.getPinsB(), frameA.getPinsC());
+            assertEquals(18, frameA.getFrameTotal());
+        }
+
+        @Test
+        public void if_frameBonus_is_Strike_frameA_is_calculated_after_frameB_is_played()
+        {
+            //arrange
+            LinkedListScores    frameA;
+            LinkedListScores    frameB;
+            //act1
+            frameA = gameScores.getCurrentFrame();
+            frameA.setPinsA(10);
+            frameA.setFrameBonus(Game.Bonus.Strike);
+            frameA.calculateFrameTotal();
+            frameA.newFrame();
+            frameB = frameA.getNext();
+            gameScores.setCurrentFrame(frameB);
+            gameScores.setBall(1);
+            gameScores.frameScore(5);
+            //assert1
+            assertEquals(10, frameA.getFrameTotal());
+            //act2
+            gameScores.setBall(2);
+            frameB.setFrameBonus(Game.Bonus.Spare);
+            gameScores.frameScore(5);
+            //assert2
+            assertEquals(20, frameA.getFrameTotal());
+        }
+
+        @Test
+        public void if_frameA_and_frameB_are_Strike_frameA_is_calculated_after_frameC_first_ball()
+        {
+            //arrange
+            LinkedListScores    frameA;
+            LinkedListScores    frameB;
+            LinkedListScores    frameC;
+            //act1
+            frameA = gameScores.getCurrentFrame();
+            frameA.setPinsA(10);
+            frameA.setFrameBonus(Game.Bonus.Strike);
+            frameA.newFrame();
+            frameB = frameA.getNext();
+            frameB.setPinsA(10);
+            frameB.setFrameBonus(Game.Bonus.Strike);
+            frameB.newFrame();
+            frameC = frameB.getNext();
+            gameScores.setCurrentFrame(frameC);
+            gameScores.setBall(1);
+            gameScores.frameScore(5);
+            //assert1
+            assertEquals(25, frameA.getFrameTotal());
+        }
     }
 }
