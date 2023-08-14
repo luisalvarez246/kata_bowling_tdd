@@ -23,7 +23,6 @@ public class Game
         this.isFinished = false;
         this.firstFrame = new LinkedListScores();
         this.currentFrame = this.firstFrame;
-        this.frameScores = new ArrayList<>();
     }
 
     public void result(int pins)
