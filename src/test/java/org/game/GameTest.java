@@ -199,19 +199,16 @@ class GameTest
     }
 
     @Nested
-    class   FrameScores
-    {
+    class   FrameScores {
         private Game gameScores;
 
         @BeforeEach
-        public void setup()
-        {
+        public void setup() {
             gameScores = new Game();
         }
 
         @Test
-        public void first_roll_is_always_saved_in_pinsA()
-        {
+        public void first_roll_is_always_saved_in_pinsA() {
             //arrange
             int pins;
             //act
@@ -220,9 +217,9 @@ class GameTest
             //assert
             assertEquals(5, gameScores.getCurrentFrame().getPinsA());
         }
+
         @Test
-        public void if_frameBonus_is_None_second_roll_is_saved_in_pinsB()
-        {
+        public void if_frameBonus_is_None_second_roll_is_saved_in_pinsB() {
             //arrange
             int pins;
             //act
@@ -235,8 +232,7 @@ class GameTest
         }
 
         @Test
-        public void frameTotal_is_calculated_after_each_roll()
-        {
+        public void frameTotal_is_calculated_after_each_roll() {
             //arrange
             int pins;
             //act
@@ -254,11 +250,10 @@ class GameTest
         }
 
         @Test
-        public void if_frameBonus_is_Spare_pinsC_FrameA_equals_pinsA_FrameB()
-        {
+        public void if_frameBonus_is_Spare_pinsC_FrameA_equals_pinsA_FrameB() {
             //arrange
-            LinkedListScores    frameA;
-            LinkedListScores    frameB;
+            LinkedListScores frameA;
+            LinkedListScores frameB;
             //act
             frameA = new LinkedListScores();
             frameA.setPinsA(5);
@@ -272,11 +267,11 @@ class GameTest
             assertEquals(frameB.getPinsA(), frameA.getPinsC());
             assertEquals(15, frameA.getFrameTotal());
         }
+
         @Test
-        public void if_frameBonus_is_Spare_but_frameB_has_not_been_played_frameA_is_10()
-        {
+        public void if_frameBonus_is_Spare_but_frameB_has_not_been_played_frameA_is_10() {
             //arrange
-            LinkedListScores    frameA;
+            LinkedListScores frameA;
             //act
             frameA = gameScores.getCurrentFrame();
             frameA.setPinsA(5);
@@ -288,11 +283,10 @@ class GameTest
         }
 
         @Test
-        public void if_frameBonus_is_Spare_frameA_is_calculated_after_frameB_is_played()
-        {
+        public void if_frameBonus_is_Spare_frameA_is_calculated_after_frameB_is_played() {
             //arrange
-            LinkedListScores    frameA;
-            LinkedListScores    frameB;
+            LinkedListScores frameA;
+            LinkedListScores frameB;
             //act
             frameA = gameScores.getCurrentFrame();
             frameA.setPinsA(5);
@@ -307,11 +301,10 @@ class GameTest
         }
 
         @Test
-        public void if_frameBonus_is_Strike_next_2_balls_are_added_to_pinsB_and_pinsC()
-        {
+        public void if_frameBonus_is_Strike_next_2_balls_are_added_to_pinsB_and_pinsC() {
             //arrange
-            LinkedListScores    frameA;
-            LinkedListScores    frameB;
+            LinkedListScores frameA;
+            LinkedListScores frameB;
             //act
             frameA = new LinkedListScores();
             frameA.setPinsA(10);
@@ -329,11 +322,10 @@ class GameTest
         }
 
         @Test
-        public void if_frameBonus_is_Strike_frameA_is_calculated_after_frameB_is_played()
-        {
+        public void if_frameBonus_is_Strike_frameA_is_calculated_after_frameB_is_played() {
             //arrange
-            LinkedListScores    frameA;
-            LinkedListScores    frameB;
+            LinkedListScores frameA;
+            LinkedListScores frameB;
             //act1
             frameA = gameScores.getCurrentFrame();
             frameA.setPinsA(10);
@@ -355,12 +347,11 @@ class GameTest
         }
 
         @Test
-        public void if_frameA_and_frameB_are_Strike_frameA_is_calculated_after_frameC_first_ball()
-        {
+        public void if_frameA_and_frameB_are_Strike_frameA_is_calculated_after_frameC_first_ball() {
             //arrange
-            LinkedListScores    frameA;
-            LinkedListScores    frameB;
-            LinkedListScores    frameC;
+            LinkedListScores frameA;
+            LinkedListScores frameB;
+            LinkedListScores frameC;
             //act1
             frameA = gameScores.getCurrentFrame();
             frameA.setPinsA(10);
@@ -377,7 +368,7 @@ class GameTest
             //assert1
             assertEquals(25, frameA.getFrameTotal());
         }
-
+    }
         @Nested
         class   GameEnd
         {
@@ -475,9 +466,6 @@ class GameTest
                     gameEnd.setFrame(i + 2);
                 }
                 gameEnd.Roll(10); //this gives the strike
-//                gameEnd.getCurrentFrame().setPinsA(10);
-//                gameEnd.setPinTotal(10);
-//                gameEnd.setBall(1);
                 gameEnd.Roll(10); //this is the extra ball rolled #1
                 gameEnd.Roll(10); //this is the extra ball rolled #2
                 score = gameEnd.getScore();
@@ -485,5 +473,4 @@ class GameTest
                 assertEquals(111, score);
             }
         }
-    }
 }

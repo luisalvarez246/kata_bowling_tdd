@@ -48,6 +48,12 @@ public class Game
             this.currentFrame.setFrameBonus(this.bonus);
     }
 
+    public void bonusValidation()
+    {
+        if (this.frame < 11)
+            checkBonus();
+    }
+
     public void calculateFrameScores()
     {
         this.currentFrame.calculateFrameTotal();
@@ -75,7 +81,6 @@ public class Game
 
     public void endMatch()
     {
-        System.out.println("enters end match");
         this.score = Score();
         this.isFinished = true;
     }
@@ -85,14 +90,16 @@ public class Game
         LinkedListScores    lastFrame;
 
         lastFrame = this.firstFrame.searchFrame(9);
-        System.out.println("enters");
-        System.out.println(lastFrame.getFrameTotal());
-        System.out.println(lastFrame.getFrameBonus());
         if (lastFrame.getFrameBonus() == Bonus.Spare)
         {
             endMatch();
         }
-        else if ((lastFrame.getFrameBonus() == Bonus.Strike) && (this.ball == 2))
+        else if (this.ball == 1)
+        {
+            this.ball = 2;
+            this.currentFrame.setCalculated(true);
+        }
+        else if ((lastFrame.getFrameBonus() == Bonus.Strike) && (lastFrame.isCalculated()))
         {
             endMatch();
         }
@@ -117,6 +124,10 @@ public class Game
             this.currentFrame.newFrame();
             this.currentFrame = this.currentFrame.getNext();
         }
+        else
+        {
+            this.ball++;
+        }
     }
 
     public void Roll(int pins)
@@ -124,7 +135,7 @@ public class Game
         if (!this.isFinished)
         {
             result(pins);
-            checkBonus();
+            bonusValidation();
             frameScore(pins);
             nextFrame();
         }
