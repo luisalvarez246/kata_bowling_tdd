@@ -12,7 +12,6 @@ public class Game
     private boolean             isFinished;
     private LinkedListScores    firstFrame;
     private LinkedListScores    currentFrame;
-    private ArrayList<Integer>  frameScores;
 
     public Game()
     {
