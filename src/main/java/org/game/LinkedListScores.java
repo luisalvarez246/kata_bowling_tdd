@@ -24,6 +24,21 @@ public class LinkedListScores
         this.next = new LinkedListScores();
     }
 
+    public LinkedListScores searchFrame(int index)
+    {
+        LinkedListScores    current;
+        int                 i;
+
+        current = this;
+        i = 0;
+        while (i < index)
+        {
+            current = current.getNext();
+            i++;
+        }
+        return (current);
+    }
+
     public void calculateFrameTotal()
     {
         this.frameTotal = this.pinsA + this.pinsB + this.pinsC;

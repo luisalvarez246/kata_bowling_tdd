@@ -70,13 +70,32 @@ public class Game
 
     public int  Score()
     {
-        return (firstFrame.totalScore());
+        return (this.firstFrame.totalScore());
     }
 
     public void endMatch()
     {
+        System.out.println("enters end match");
         this.score = Score();
         this.isFinished = true;
+    }
+
+    public void checkExtraFrame()
+    {
+        LinkedListScores    lastFrame;
+
+        lastFrame = this.firstFrame.searchFrame(9);
+        System.out.println("enters");
+        System.out.println(lastFrame.getFrameTotal());
+        System.out.println(lastFrame.getFrameBonus());
+        if (lastFrame.getFrameBonus() == Bonus.Spare)
+        {
+            endMatch();
+        }
+        else if ((lastFrame.getFrameBonus() == Bonus.Strike) && (this.ball == 2))
+        {
+            endMatch();
+        }
     }
 
     public void nextFrame()
@@ -84,6 +103,10 @@ public class Game
         if ((this.frame == 10) && (this.bonus == Bonus.None) && (this.ball == 2))
         {
             endMatch();
+        }
+        else if (this.frame == 11)
+        {
+            checkExtraFrame();
         }
         else if ((this.bonus == Bonus.Strike) || (this.ball == 2))
         {

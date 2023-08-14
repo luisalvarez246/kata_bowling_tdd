@@ -436,6 +436,54 @@ class GameTest
                 //assert
                 assertEquals(90, score);
             }
+            @Test
+            public void A_spare_in_the_last_frame_gives_an_extra_ball()
+            {
+                //arrange
+                int                 score;
+                //act
+                for (int i = 0; i < 9; i++)
+                {
+                    gameEnd.getCurrentFrame().setFrameTotal(9);
+                    gameEnd.getCurrentFrame().setCalculated(true);
+                    gameEnd.getCurrentFrame().newFrame();
+                    gameEnd.setCurrentFrame(gameEnd.getCurrentFrame().getNext());
+                    gameEnd.setFrame(i + 2);
+                }
+                gameEnd.getCurrentFrame().setPinsA(7);
+                gameEnd.setPinTotal(7);
+                gameEnd.setBall(2);
+                gameEnd.Roll(3); //this gives the spare
+                gameEnd.Roll(10); //this is the extra ball rolled
+                score = gameEnd.getScore();
+                //assert
+                assertEquals(101, score);
+            }
+
+            @Test
+            public void A_Strike_in_the_last_frame_gives_two_extra_balls()
+            {
+                //arrange
+                int                 score;
+                //act
+                for (int i = 0; i < 9; i++)
+                {
+                    gameEnd.getCurrentFrame().setFrameTotal(9);
+                    gameEnd.getCurrentFrame().setCalculated(true);
+                    gameEnd.getCurrentFrame().newFrame();
+                    gameEnd.setCurrentFrame(gameEnd.getCurrentFrame().getNext());
+                    gameEnd.setFrame(i + 2);
+                }
+                gameEnd.Roll(10); //this gives the strike
+//                gameEnd.getCurrentFrame().setPinsA(10);
+//                gameEnd.setPinTotal(10);
+//                gameEnd.setBall(1);
+                gameEnd.Roll(10); //this is the extra ball rolled #1
+                gameEnd.Roll(10); //this is the extra ball rolled #2
+                score = gameEnd.getScore();
+                //assert
+                assertEquals(111, score);
+            }
         }
     }
 }
