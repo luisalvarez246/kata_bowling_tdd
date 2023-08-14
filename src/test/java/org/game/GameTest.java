@@ -473,4 +473,89 @@ class GameTest
                 assertEquals(111, score);
             }
         }
+
+    @Nested
+    class   GameSimulations
+    {
+        private Game    newGame;
+        @BeforeEach
+        public void setup()
+        {
+            newGame = new Game();
+        }
+
+        @Test
+        public void perfect_game_should_return_300_score()
+        {
+            //arrange
+            int score;
+            //act
+            for (int i = 0; i < 12; i++)
+            {
+                newGame.Roll(10);
+            }
+            score = newGame.getScore();
+            //assert
+            assertEquals(300, score);
+            try
+            {
+                newGame.Roll(10);
+                fail("Expected exception to be thrown");
+            }
+            catch(Exception error)
+            {
+                assertEquals("Game Finished, final score 300, reset to start a new Game", error.getMessage());
+            }
+        }
+        @Test
+        public void Ten_pairs_of_9_and_miss_should_score_90()
+        {
+            //arrange
+            int score;
+            //act
+            for (int i = 0; i < 20; i++)
+            {
+                if (i % 2 == 0)
+                    newGame.Roll(9);
+                else
+                    newGame.Roll(0);
+            }
+            score = newGame.getScore();
+            //assert
+            assertEquals(90, score);
+            try
+            {
+                newGame.Roll(10);
+                fail("Expected exception to be thrown");
+            }
+            catch(Exception error)
+            {
+                assertEquals("Game Finished, final score 90, reset to start a new Game", error.getMessage());
+            }
+        }
+
+        @Test
+        public void Ten_pairs_of_5_and_5_with_final_5_should_score_150()
+        {
+            //arrange
+            int score;
+            //act
+            for (int i = 0; i < 21; i++)
+            {
+                newGame.Roll(5);
+            }
+            score = newGame.getScore();
+            //assert
+            assertEquals(150, score);
+            try
+            {
+                newGame.Roll(10);
+                fail("Expected exception to be thrown");
+            }
+            catch(Exception error)
+            {
+                assertEquals("Game Finished, final score 150, reset to start a new Game", error.getMessage());
+            }
+        }
+    }
 }
