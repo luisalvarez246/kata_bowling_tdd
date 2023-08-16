@@ -558,4 +558,30 @@ class GameTest
             }
         }
     }
+
+    @Nested
+    class   GameReset
+    {
+        private Game    gameReset;
+
+        @BeforeEach
+        public void setup()
+        {
+            gameReset = new Game();
+        }
+
+        @Test
+        public void resetGame_should_reset_each_variable_to_default_values()
+        {
+            //arrange
+            for (int i = 0; i < 21; i++)
+            {
+                gameReset.Roll(5);
+            }
+            //act
+            gameReset.resetGame();
+            //assert
+            gameReset.Roll(5);
+        }
+    }
 }

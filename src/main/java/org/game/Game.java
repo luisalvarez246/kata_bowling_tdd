@@ -143,6 +143,18 @@ public class Game
         }
     }
 
+    public void resetGame()
+    {
+        this.frame = 1;
+        this.ball = 1;
+        this.score = 0;
+        this.pinTotal = 0;
+        this.bonus = Bonus.None;
+        this.isFinished = false;
+        this.firstFrame = new LinkedListScores();
+        this.currentFrame = this.firstFrame;
+    }
+
     public enum Bonus
     {
         Spare,
